@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sara's Retro Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      emailjs.init("98b3-Tr8GFF2COs5I");
+    });
+  </script>
+</head>
+<body>
+  <!--language button-->
+  <div class="language-toggle">
+    <img src="images/flag-en.png" alt="English" onclick="setLanguage('en')" />
+    <img src="images/flag-nl.png" alt="Dutch" onclick="setLanguage('nl')" />
+  </div>
+
+  <!-- Intro Card -->
+  <div class="intro-wrapper">
+    <div class="intro-container">
+      <img src="images/info-icon1.png" class="about-site-btn" onclick="handleClick('siteinfo')" />
+      <div class="intro-card">
+        <div class="window-header">
+          <div data-lang data-en="home" data-nl="home">home</div>
+          <button class="close-btn" style="visibility: hidden;">✖</button>
+        </div>
+        <div class="window-content">
+          <h1 data-lang data-en="hi! i’m sara" data-nl="hoi! ik ben sara">hi! i’m sara</h1>
+          <p class="subtitle" data-lang data-en="ux-designer and student" data-nl="ux-designer en student"><b>ux-designer and student</b></p>
+          <div class="image-buttons">
+            <img src="images/work-icon.png" alt="Work" onclick="handleClick('works')" />
+            <img src="images/about-icon.png" alt="About" onclick="handleClick('bio')" />
+            <img src="images/links-icon.png" alt="Links" onclick="handleClick('links')" />
+            <img src="images/contact-icon.png" alt="Contact" onclick="handleClick('contact')" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Website Window -->
+  <div id="siteinfo" class="draggable-window">
+    <div class="window-header">
+      <div data-lang data-en="about this site" data-nl="over deze site">about this site</div>
+      <button class="close-btn">✖</button>
+    </div>
+    <div class="window-content">
+      <div class="project">
+      <h2 data-lang data-en="Hi! Welcome to my portfolio website :)" data-nl="Hoi! Welkom op mijn portfolio website :)">Hi! Welcome to my portfolio website :)</h2>
+      <p data-lang data-en="I am a really big fan of the weird 2000s websites, I took big inspiration from them for my portfolio website." data-nl="Ik ben een grote fan van de rare websites uit de jaren 2000, ik haalde er veel inspiratie uit voor mijn portfolio.">I am a really big fan of the weird 2000s websites, I took big inspiration from them for my portfolio website.</p>
+      <img src="images/2000web.png" alt="Screenshot or personal image" style="width: 100%; border-radius: 6px; margin-bottom: 1rem;" />
+      <p data-lang data-en="The creativity with colors, shapes and styles is what made those websites all feel very unique to their creator. Which is exactly the goal of a portfolio, showing who I am and what I can do as a designer." data-nl="De creativiteit met kleuren, vormen en stijlen maakte die websites uniek voor hun maker. Dat is precies het doel van een portfolio: laten zien wie ik ben en wat ik als designer kan.">The creativity with colors, shapes and styles is what made those websites all feel very unique to their creator. Which is exactly the goal of a portfolio, showing who I am and what I can do as a designer.</p>
+      <p data-lang data-en="For my particular process in web design I always start off with moodboards. I decided on a retro experience, like in website windows (to honor the 2000s websites). For the colorscheme I went with my favorite colors, a gentle pink/green combination." data-nl="Mijn webdesignproces begint altijd met moodboards. Ik koos voor een retro-ervaring in venstervorm (als eerbetoon aan de 2000s websites). Voor het kleurenschema koos ik mijn favoriete kleuren: een zachte roze/groene combinatie.">For my particular process in web design I always start off with moodboards. I decided on a retro experience, like in website windows (to honor the 2000s websites). For the colorscheme I went with my favorite colors, a gentle pink/green combination.</p>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+        <img src="images/retroweb.png" alt="Moodboard 1" style="width: 48%; border-radius: 6px;" />
+        <img src="images/colorinspo.png" alt="Moodboard 2" style="width: 48%; border-radius: 6px;" />
+      </div>
+      <p data-lang data-en="To allow for full creativity and as a learning opportunity I decided to code the website myself, rather than using a web builder." data-nl="Om volledige creativiteit toe te laten en als leermoment, besloot ik de site zelf te coderen in plaats van een bouwer te gebruiken.">To allow for full creativity and as a learning opportunity I decided to code the website myself, rather than using a web builder.</p>
+      <p data-lang data-en="I hope you enjoy my Portfolio :)" data-nl="Ik hoop dat je geniet van mijn portfolio :)">I hope you enjoy my Portfolio :)</p>
+    </div>
+  </div></div>
+
+  <!-- Additional Windows -->
+
+  <div class="draggable-window" id="works">
+    <div class="window-header">
+      <div data-en="works" data-lang="" data-nl="werken">works</div>
+      <button class="close-btn">✖</button>
+    </div>
+    <div class="window-content">
+    <!-- Skills Section -->
+    <div class="skills-section">
+      
+      <h4>User Based Design</h4>
+      Across all my projects, User Experience Design is the common thread. Through games, installations and storytelling. My goal is to create meaningful experiences that give a new perspective to the user.
+      
+      <h4>Development</h4>
+      <p>C#, HTML/CSS, JavaScript</p>
+
+      <h4>Tools</h4>
+      <div class="program-icons">
+        <img src="images/icons/unity.png" alt="Unity" />
+        <img src="images/icons/blender.png" alt="Blender" />
+        <img src="images/icons/arduino.png" alt="Arduino" />
+        <img src="images/icons/visualstudiocode.png" alt="Visual Studio Code" />
+        <img src="images/icons/figma.png" alt="Figma" />
+        <img src="images/icons/canva.png" alt="Canva" />
+        <img src="images/icons/photoshop.png" alt="Photoshop" />
+        <img src="images/icons/indesign.png" alt="InDesign" />
+        <img src="images/icons/illustrator.png" alt="Illustrator" />
+        <img src="images/icons/davinci.png" alt="DaVinci" />
+      </div>
+    </div>
+    
+  
+      <div class="project">
+        <iframe allowfullscreen frameborder="0" src="https://www.youtube.com/embed/i9jUFTPDa4M" title="Time Trial Trailer"></iframe>
+        <h3 data-en="Project: Time Trial"  data-nl="Project: Time Trial">Project: Time Trial</h3>
+        <div data-en="Project: Time Trial is a near-future based game. You play as Mark, a Breda based delivery driver armed with freerunning skills. You are facing the threat of losing your job to automation. To save your livelihood you must beat the delivery times of your robotic rivals by navigating the city with agility and speed." 
+             data-nl="Project: Time Trial is een spel dat zich afspeelt in de nabije toekomst. Je speelt als Mark, een bezorger uit Breda met freerunning-vaardigheden. Je baan wordt bedreigd door automatisering. Om je werk te behouden, moet je sneller leveren dan je robot-concurrenten door de stad heen.">
+             Project: Time Trial is a near-future based game. You play as Mark, a Breda based delivery driver armed with freerunning skills. You are facing the threat of losing your job to automation. To save your livelihood you must beat the delivery times of your robotic rivals by navigating the city with agility and speed.
+        </div><br /><br />
+        <strong data-en="Learned skills:"  data-nl="Geleerde vaardigheden:">Learned skills:</strong>
+        User Experience Design, Game Design, Poster Design, Immersive Storytelling<br />
+        <strong data-en="Programs used:"  data-nl="Gebruikte programma's:">Programs used:</strong>
+        <div class="program-icons">
+          <img src="images/icons/unity.png" alt="Unity" />
+          <img src="images/icons/blender.png" alt="Blender" />
+          <img src="images/icons/indesign.png" alt="InDesign" />
+        </div>
+      </div>
+  
+      <div class="project">
+        <img alt="Praat Granaat" src="images/granaat1.jpg" />
+        <h3 data-en="Praat Granaat (Talking Grenade)"  data-nl="Praat Granaat (Praatgranaat)">Praat Granaat (Talking Grenade)</h3>
+        <div data-en="How can people understand the feeling of social anxiety without experiencing it? Symbolism is a simple yet powerful tool, a grenade and a flower. The terrifying exterior of something so beautiful yet fragile: social interaction. Its simplicity makes it an easy conversation starter." 
+             data-nl="Hoe kun je het gevoel van sociale angst begrijpen zonder het zelf te ervaren? Symboliek is een simpele maar krachtige tool, een granaat en een bloem. Een angstaanjagend uiterlijk voor iets zo kwetsbaars en moois: sociale interactie. De eenvoud maakt het een makkelijk gespreksonderwerp.">
+             How can people understand the feeling of social anxiety without experiencing it? Symbolism is a simple yet powerful tool, a grenade and a flower. The terrifying exterior of something so beautiful yet fragile: social interaction. Its simplicity makes it an easy conversation starter.
+        </div><br /><br />
+        <strong data-en="Learned skills:"  data-nl="Geleerde vaardigheden:">Learned skills:</strong>
+        Storytelling, Self Reflection, Presenting
+      </div>
+  
+      <div class="project">
+        <img alt="Mantis Crab Experience" src="images/shrimp1.JPG" />
+        <h3 data-en="The Praying Mantis Crab Experience" data-nl="De Bidsprinkhaankrab Ervaring">The Praying Mantis Crab Experience</h3>
+        <h6><i>(In collaboration with Rens Kwakkenbos)</i></h6>
+        <div data-en="What if humans didn’t communicate the way we do now? To explore this, we took inspiration from how the Mantis Shrimp communicates. We created a wearable mask using Arduino and UV-light that simulates a completely different communication experience." 
+             data-nl="Wat als mensen niet communiceren zoals we nu gewend zijn? Om dit te onderzoeken, lieten we ons inspireren door de communicatie van de bidsprinkhaankrab. We maakten een draagbaar masker met Arduino en UV-licht dat een totaal andere communicatie-ervaring simuleert.">
+             What if humans didn’t communicate the way we do now? To explore this, we took inspiration from how the Mantis Shrimp communicates. We created a wearable mask using Arduino and UV-light that simulates a completely different communication experience.
+        </div><br /><br />
+        <strong data-en="Learned skills:"  data-nl="Geleerde vaardigheden:">Learned skills:</strong>
+        User Experience Design, Arduino, Programming, Research, Process Tracking, Collaborating<br />
+        <strong data-en="Programs used:"  data-nl="Gebruikte programma's:">Programs used:</strong>
+        <div class="program-icons">
+          <img src="images/icons/arduino.png" alt="Arduino" />
+          <img src="images/icons/visualstudiocode.png" alt="Visual Studio Code" />
+          <img src="images/icons/indesign.png" alt="InDesign" />
+        </div>
+      </div>
+  
+      <div class="project">
+        <img alt="WhatThePhub Poster" src="images/2.png" />
+        <h3 data-en="Project: WhatThePhub"  data-nl="Project: WhatThePhub">Project: WhatThePhub</h3>
+        <h6><i>(In collaboration with Rens Kwakkenbos, Rochee Faverey and Corné Schipper)</i></h6>
+        <div data-en="To raise awareness of phubbing (ignoring others by using your phone), we used priming: posters placed throughout the city. At social gatherings, people could place their phones in phone boxes — giving them a distraction-free moment of connection, and insight into their behavior." 
+             data-nl="Om bewustzijn te creëren over phubbing (anderen negeren door op je telefoon te zitten), gebruikten we priming: posters verspreid door de stad. Tijdens sociale bijeenkomsten konden mensen hun telefoon opbergen in telefoonboxen, wat zorgde voor ongestoorde verbinding en inzicht in hun gedrag.">
+             To raise awareness of phubbing (ignoring others by using your phone), we used priming: posters placed throughout the city. At social gatherings, people could place their phones in phone boxes — giving them a distraction-free moment of connection, and insight into their behavior.
+        </div><br /><br />
+        <strong data-en="Learned skills:"  data-nl="Geleerde vaardigheden:">Learned skills:</strong>
+        User Experience Design, Research, User Journey Flow Design, Immersive Storytelling<br />
+        <strong data-en="Programs used:"  data-nl="Gebruikte programma's:">Programs used:</strong>
+        <div class="program-icons">
+          <img src="images/icons/Figma.png" alt="Figma" />
+          <img src="images/icons/Canva.png" alt="Canva" />
+          <img src="images/icons/indesign.png" alt="InDesign" />
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+  
+
+ <div id="bio" class="draggable-window">
+  <div class="window-header">
+    <div data-lang data-en="about" data-nl="over">about</div>
+    <button class="close-btn">✖</button>
+  </div>
+  <div class="window-content about-window">
+    <div class="about-header">
+      <img src="images/Sarafoto.jpg" alt="Sara" class="about-photo" />
+      <div class="about-intro-text">
+        <h2>Sara Scheurkogel</h2>
+        <p class="about-tagline" data-lang data-en="CMD student, based in the Netherlands" data-nl="CMD-student, woonachtig in Nederland">CMD student, based in the Netherlands</p>
+        <p data-lang data-en="Hi! I'm Sara, an aspiring UX designer." data-nl="Hoi! Ik ben Sara, een beginnende UX-designer.">Hi! I'm Sara, an aspiring UX designer.</p>
+      </div>
+    </div>
+    <div class="about-section">
+      <h3 data-lang data-en="Things I Make" data-nl="Wat ik maak">Things I Make</h3>
+      <ul>
+        <li data-lang data-en="Frontend web development" data-nl="Frontend webontwikkeling">Frontend web development</li>
+        <li data-lang data-en="Promotional design (Posters, Pamphlets or other marketing)" data-nl="Promotieontwerp (posters, flyers of andere marketing)">Promotional design (Posters, Pamphlets or other marketing)</li>
+        <li data-lang data-en="User flow charts" data-nl="Userflow-diagrammen">User flow charts</li>
+        <li data-lang data-en="UX design" data-nl="UX-ontwerp">UX design</li>
+      </ul>
+    </div>
+    <div class="about-section">
+      <h3 data-lang data-en="Education" data-nl="Opleiding">Education</h3>
+      <p data-lang 
+      data-en="Bachelor Communications and Multimedia Design, Avans Hogeschool Breda" 
+      data-nl="Bachelor Communication and Multimedia Design, Avans Hogeschool Breda">
+      Bachelor Communications and Multimedia Design, Avans Hogeschool Breda
+   </p>
+   <p data-lang 
+      data-en="Expected graduation: 2028" 
+      data-nl="Verwachte afstudeerdatum: 2028">
+      Expected graduation: 2028
+   </p>
+       </div>
+    <div class="about-section">
+      <h3 data-lang data-en="Interests" data-nl="Interesses">Interests</h3>
+      <ul>
+        <li data-lang data-en="Human psychology" data-nl="Menselijke psychologie">Human psychology</li>
+        <li data-lang data-en="Sewing and crochet" data-nl="Naaien en haken">Sewing and crochet</li>
+        <li data-lang data-en="Illustrating (currently a beginner)" data-nl="Illustreren (momenteel een beginner)">Illustrating (currently a beginner)</li>
+        <li data-lang data-en="Gaming" data-nl="Gamen">Gaming</li>
+        <li data-lang data-en="Collecting rocks :)" data-nl="Stenen verzamelen :)">Collecting rocks :)</li>
+      </ul>
+    </div>
+    <div class="about-section">
+      <h3 data-lang data-en="Languages" data-nl="Talen">Languages</h3>
+      <ul>
+        <li data-lang data-en="Dutch - native" data-nl="Nederlands - moedertaal">Dutch - native</li>
+        <li data-lang data-en="English - fluent" data-nl="Engels - vloeiend">English - fluent</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+  <div id="links" class="draggable-window">
+    <div class="window-header">
+      <div data-lang data-en="links" data-nl="linkjes">links</div>
+      <button class="close-btn">✖</button>
+    </div>
+    <div class="window-content">
+      <div class="social-icons">
+        <a href="https://www.instagram.com/flyingpotatogirl/" target="_blank">
+          <img src="images/instagram-icon.png" alt="Instagram" />
+        </a>
+        <a href="http://www.linkedin.com/in/sara-scheurkogel" target="_blank">
+          <img src="images/linkedin-icon.png" alt="LinkedIn" />
+        </a>
+        <a href="mailto:sarascheurkogel@gmail.com">
+          <img src="images/email-icon.png" alt="Email Me" />
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div id="contact" class="draggable-window">
+    <div class="window-header">
+      <div data-lang data-en="contact me!" data-nl="neem contact op!">contact me!</div>
+      <button class="close-btn">✖</button>
+    </div>
+    <div class="window-content">
+      <form id="contactForm">
+        <input type="text" name="name" placeholder="your name" required />
+        <input type="email" name="email" placeholder="your email" required />
+        <textarea name="message" rows="4" placeholder="your message" required></textarea>
+        <button type="submit">send</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="popup" class="cute-popup">
+    <div class="popup-inner">
+      <p>message sent :)</p>
+      <span class="popup-heart">💌</span>
+    </div>
+  </div>
+
+  <div id="fun" class="draggable-window">
+    <div class="window-header">
+      <div data-lang data-en="meet my cats :)" data-nl="ontmoet mijn katten :)">meet my cats :)</div>
+      <button class="close-btn">✖</button>
+    </div>
+    <div class="window-content">
+      <p>say hi to <strong>muis</strong> and <strong>oreo</strong> :)</p>
+      <div class="cat-gallery">
+        <img src="images/oreo.JPG" alt="Oreo the cat" />
+        <img src="images/muis.JPG" alt="Muis the cat" />
+      </div>
+      <a href="https://www.instagram.com/muisandoreo/" target="_blank" class="cat-instagram-link">
+        <img src="images/instagram-icon.png" alt="follow them on instagram!" />
+      </a>
+    </div>
+  </div>
+
+  <img src="images/sparkle.png" class="fun-trigger" alt="sparkle" onclick="handleClick('fun')" />
+  <canvas id="sakura"></canvas>
+  <script src="script.js"></script>
+</body>
+</html>

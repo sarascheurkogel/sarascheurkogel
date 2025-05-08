@@ -1,0 +1,480 @@
+body {
+  background-image: url('images/background.png');
+  background-repeat: no-repeat;
+  background-position: center center;   /* 3. Center it */
+  background-size: cover;               /* scale-to-fill w/o distortion */
+  font-family: 'Courier New', Courier, monospace, sans-serif;
+  padding: 2rem;
+  overflow: hidden;
+}
+/*peddels*/
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+/*laguage switch*/
+.language-toggle {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 999;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.language-toggle img {
+  width: 30px;
+  height: auto;
+  cursor: pointer;
+  filter: brightness(1.2) saturate(120%);
+  transition: transform 0.2s ease;
+}
+
+.language-toggle img:hover {
+  transform: scale(1.1) rotate(3deg);
+}
+.language-toggle img.active {
+  border: 5px solid hotpink;
+  border-radius: 2px;
+}
+
+h3,h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: #F6B0BB;
+  text-shadow: 1px 1px 0 #ECEDDA;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  color: #ECEDDA;
+  text-shadow: 1px 1px 0 #7a7a7a;
+}
+.intro-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.intro-container {
+  position: relative;
+  width: 100%;
+  max-width: 650px;
+}
+
+.intro-card {
+  background: #F1C8CB;
+  border: 2px solid #F6B0BB;
+  border-radius: 10px;
+  box-shadow: 6px 6px 0 #9CAD8C;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 400px;
+}
+
+
+.intro-card .window-header,
+.window-header {
+  background: #F6B0BB;
+  color: white;
+  height: 60px;
+  padding: 0 1.2rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  cursor: default;
+}
+
+.window-header:hover {
+  cursor: move;
+}
+
+.intro-card .window-header:hover {
+  cursor: default;
+}
+
+
+.window-header button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.intro-card .window-content,
+.window-content {
+  padding: 1rem;
+  max-height: 60vh;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #9CAD8C;
+  margin-bottom: 5rem;
+}
+
+
+.image-buttons,
+.button-container,
+.social-icons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem; 
+}
+
+.image-buttons img,
+.social-icons img,
+.cat-instagram-link img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  cursor: pointer;
+  filter: brightness(1.2) saturate(120%) invert(40%) sepia(30%) hue-rotate(295deg);
+  transition: transform 0.2s ease;
+}
+
+.image-buttons img:hover,
+.social-icons img:hover,
+.cat-instagram-link img:hover {
+  transform: scale(1.1);
+}
+
+.draggable-window {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  width: 90%;
+  max-width: 500px;
+  background: #fff;
+  border: 2px solid #F6B0BB;
+  border-radius: 10px;
+  box-shadow: 6px 6px 0 #9CAD8C;
+  display: none;
+  flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.draggable-window.opening { animation: zoomIn 0.3s ease forwards; }
+.draggable-window.closing { animation: zoomOut 0.2s ease forwards; }
+
+.project {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.project img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+.project iframe {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9; /* ensures proper proportions */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.project img:hover,
+.project iframe:hover {
+  transform: scale(1.02);
+}
+
+.fun-trigger {
+  width: 40px;
+  height: auto;
+  position: fixed;
+  bottom: 20px;
+  right: 20px; 
+  cursor: pointer;
+  animation: sparkleWiggle 2.5s infinite ease-in-out;
+  transition: transform 0.3s ease;
+  filter: brightness(1.2) saturate(120%) invert(40%) sepia(30%) hue-rotate(295deg);
+}
+
+.fun-trigger:hover {
+  transform: scale(1.2) rotate(10deg);
+}
+
+.about-site-btn {
+  position: absolute;
+  top: -35px;
+  left: -35px;
+  width: 40px;
+  height: auto;
+  z-index: 1000;
+  cursor: pointer;
+  filter: brightness(1.2) saturate(120%) invert(40%) sepia(30%) hue-rotate(295deg);
+  transition: transform 0.2s ease;
+  animation: sparkleWiggle 2.5s infinite ease-in-out;
+}
+
+.about-site-btn:hover {
+  transform: scale(1.1);
+}
+
+@keyframes zoomIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes zoomOut {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.8); opacity: 0; }
+}
+@keyframes sparkleWiggle {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(5deg) scale(1.05); }
+  50% { transform: rotate(-5deg) scale(1.1); }
+  75% { transform: rotate(3deg) scale(1.05); }
+}
+/* ... (rest of your CSS like forms, bio, popups, mobile) ... */
+
+  /* ===== About/Bio Section ===== */
+  .about-window {
+    font-family: 'Courier New', Courier, monospace;
+    color: #4a4a4a;
+    text-align: center;
+    padding-bottom: 1rem;
+  }
+  .about-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .about-photo {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 2px solid #F6B0BB;
+  }
+  .about-intro-text h2 {
+    font-size: 1.3rem;
+    color: #F6B0BB;
+    margin: 0 0 0.2rem;
+  }
+  .about-tagline {
+    font-size: 0.85rem;
+    color: #9CAD8C;
+    margin: 0;
+  }
+  .about-bio {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0 auto 1.5rem;
+    padding: 0 1rem;
+    max-width: 500px;
+  }
+  .about-section {
+    background: #F1C8CB;
+    border: 1px solid #F6B0BB;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 2px 2px 0 #9CAD8C;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+  .about-section h3 {
+    margin-top: 0;
+    font-size: 1rem;
+    color: #9CAD8C;
+    margin-bottom: 0.5rem;
+  }
+  .about-section ul {
+    list-style: square;
+    padding-left: 1.2rem;
+    margin: 0;
+  }
+  .about-section li {
+    margin-bottom: 0.3rem;
+  }
+  
+  /* ===== Form ===== */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  input, textarea {
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+  }
+  form button {
+    background: #9CAD8C;
+    color: #fff;
+    font-weight: bold;
+  }
+  
+  /* ===== Cats / Fun Window ===== */
+  .cat-gallery {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .cat-gallery img {
+    width: 45%;
+    max-width: 200px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    object-fit: cover;
+  }
+  
+  /* ===== Popup ===== */
+  .cute-popup {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff0f8;
+    border: 2px solid #F6B0BB;
+    color: #F6B0BB;
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.1rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 9999;
+    animation: popFade 2s ease-out forwards;
+  }
+  .popup-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .popup-heart {
+    font-size: 1.5rem;
+    animation: bounce 1s infinite;
+  }
+  @keyframes popFade {
+    0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+    10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    90% { opacity: 1; }
+    100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  
+  /* ===== Mobile Support ===== */
+@media (max-width: 768px) {
+  .draggable-window {
+    position: fixed;
+    width: 100vw;
+    left: 0;
+    top: auto;
+    bottom: 0;
+    /* height: 85vh;  */
+    max-width: none;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.2);
+    /* transition: transform 0.4s ease; */
+    background-color: white; /* prevents transparent/white bar flickers */
+    overflow-y: auto;
+  }
+
+  .draggable-window.hide-mobile {
+    transform: translateY(100%);
+  }
+
+  .draggable-window.show-mobile {
+    display: flex;
+    transform: translateY(0);
+  }
+
+  body {
+    overflow: hidden;
+    height: 100dvh;
+  }
+
+  .window-content{
+    max-height: 75vh;
+  }
+}
+
+  
+  .skills-section {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .skills-section h4 {
+    margin: 1rem 0 0.25rem;
+    font-size: 1rem;
+    color: #F6B0BB;
+  }
+  
+  .skills-section p {
+    margin: 0.25rem 0 1rem;
+    font-size: 0.9rem;
+    color: #444;
+  }
+  
+  .program-icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    padding: 0.5rem;
+    background: #fff7fa;
+    border-radius: 8px;
+  }
+  
+  .program-icons img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+    border-radius: 4px;
+  }
+  
+  .program-icons img:hover {
+    transform: scale(1.15);
+  }
+
+/* ===== CUSTOM PINK SCROLLBAR ===== */
+
+/* 1. WebKit Browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px;            /* width of the entire scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #F1C8CB;     /* track/background color */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #9CAD8C;  /* thumb color */
+  border-radius: 6px;         /* roundness */
+  border: 3px solid #F1C8CB;  /* gives that inset “padding” look */
+}
+
+/* 2. Firefox */
+html {
+  scrollbar-width: thin;                        /* "auto" or "thin" */
+  scrollbar-color: #9CAD8C #F1C8CB;             /* thumb then track */
+}

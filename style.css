@@ -216,7 +216,7 @@ h1 {
   left: -35px;
   width: 40px;
   height: auto;
-  z-index: 1000;
+  z-index: 10;
   cursor: pointer;
   filter: brightness(1.2) saturate(120%) invert(40%) sepia(30%) hue-rotate(295deg);
   transition: transform 0.2s ease;
@@ -226,6 +226,7 @@ h1 {
 .about-site-btn:hover {
   transform: scale(1.1);
 }
+
 
 @keyframes zoomIn {
   0% { transform: scale(0.8); opacity: 0; }

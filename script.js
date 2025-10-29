@@ -14,6 +14,13 @@ function setLanguage(lang) {
   if (activeImg) activeImg.classList.add('active');
 }
 
+// === Z-index manager (top of your script) ===
+let zTop = 100;                 // start above your page chrome
+function bringToFront(el) {
+  zTop += 1;
+  el.style.zIndex = zTop;
+}
+
 
 // === Make Window Draggable ===
 function makeDraggable(el, header) {
@@ -23,23 +30,26 @@ function makeDraggable(el, header) {
     isDragging = true;
     offsetX = e.clientX - el.offsetLeft;
     offsetY = e.clientY - el.offsetTop;
-    el.style.zIndex = parseInt(Date.now() / 1000);
+    bringToFront(el);            // <-- put it on top when you grab it
   });
+
+  // (optional) clicking anywhere on the window also brings it to front
+  el.addEventListener('mousedown', () => bringToFront(el));
 
   document.addEventListener('mousemove', (e) => {
     if (!isDragging || window.innerWidth <= 768) return;
     el.style.left = `${e.clientX - offsetX}px`;
-    el.style.top = `${e.clientY - offsetY}px`;
+    el.style.top  = `${e.clientY - offsetY}px`;
   });
 
-  document.addEventListener('mouseup', () => {
-    isDragging = false;
-  });
+  document.addEventListener('mouseup', () => { isDragging = false; });
 }
+
 
 // === Open & Close Window Logic ===
 function openWindow(id) {
   const win = document.getElementById(id);
+
   if (window.innerWidth <= 768) {
     document.querySelectorAll('.draggable-window').forEach(w => {
       w.classList.remove('show-mobile');
@@ -49,11 +59,13 @@ function openWindow(id) {
     win.classList.add('show-mobile');
   } else {
     win.style.display = 'flex';
+    bringToFront(win);           // <-- NEW: newly opened window is above previous
     win.classList.remove('closing');
     win.classList.add('opening');
     setTimeout(() => win.classList.remove('opening'), 200);
   }
 }
+
 
 function closeWindow(el) {
   if (window.innerWidth <= 768) {
@@ -67,6 +79,48 @@ function closeWindow(el) {
     }, 200);
   }
 }
+
+// === fullscreen picture ===
+function toggleFullscreen(img) {
+  if (!document.fullscreenElement) {
+    img.requestFullscreen().catch(err => {
+      console.error(`Error attempting to enable fullscreen mode: ${err.message}`);
+    });
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+// Example usage:
+document.getElementById("promo").onclick = function() {
+  toggleFullscreen(this);
+};
+document.getElementById("environment").onclick = function() {
+  toggleFullscreen(this);
+};
+document.getElementById("robot").onclick = function() {
+  toggleFullscreen(this);
+};
+document.getElementById("color").onclick = function() {
+  toggleFullscreen(this);
+};
+document.getElementById("cmdlogo").onclick = function() {
+  toggleFullscreen(this);
+};
+document.getElementById("qr").onclick = function() {
+  toggleFullscreen(this);
+};
+document.getElementById("userjourney").onclick = function() {
+  toggleFullscreen(this);
+};
+document.getElementById("website").onclick = function() {
+  toggleFullscreen(this);
+};
+document.getElementById("poster").onclick = function() {
+  toggleFullscreen(this);
+};
+
+
 
 // === Play Click Sound ===
 const clickSound = new Audio('sounds/click.mp3');

@@ -92,33 +92,12 @@ function toggleFullscreen(img) {
 }
 
 // Example usage:
-document.getElementById("promo").onclick = function() {
-  toggleFullscreen(this);
-};
-document.getElementById("environment").onclick = function() {
-  toggleFullscreen(this);
-};
-document.getElementById("robot").onclick = function() {
-  toggleFullscreen(this);
-};
-document.getElementById("color").onclick = function() {
-  toggleFullscreen(this);
-};
-document.getElementById("cmdlogo").onclick = function() {
-  toggleFullscreen(this);
-};
-document.getElementById("qr").onclick = function() {
-  toggleFullscreen(this);
-};
-document.getElementById("userjourney").onclick = function() {
-  toggleFullscreen(this);
-};
-document.getElementById("website").onclick = function() {
-  toggleFullscreen(this);
-};
-document.getElementById("poster").onclick = function() {
-  toggleFullscreen(this);
-};
+["promo", "environment", "robot", "color", "cmdlogo", "qr", "userjourney", "website1", "website2", "poster",
+ "phonebox", "keychain", "logo", "pamflet", "poster1", "poster2", "userjourneyposter", "intervention","bothpic", "helm" ]
+.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.onclick = function() { toggleFullscreen(this); };
+});
 
 
 

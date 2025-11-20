@@ -185,9 +185,24 @@ window.addEventListener('DOMContentLoaded', () => {
       makeDraggable(win, header);
       const closeBtn = header.querySelector('.close-btn');
       if (closeBtn) {
+// Prevent drag from stealing the tap
 closeBtn.addEventListener("touchstart", (e) => {
   e.stopPropagation();
 }, { passive: true });
+
+// Actually close the window on tablet
+closeBtn.addEventListener("touchend", (e) => {
+  e.stopPropagation();
+  closeWindow(win);
+  playClickSound();
+}, { passive: true });
+
+// Desktop click
+closeBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  closeWindow(win);
+  playClickSound();
+});
 
       }
     }

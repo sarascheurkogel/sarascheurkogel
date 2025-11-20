@@ -28,48 +28,48 @@ function makeDraggable(el, header) {
   let offsetX = 0, offsetY = 0;
   let isDragging = false;
 
+  function isInsideButton(element) {
+    return element.closest(".close-btn") || element.tagName === "BUTTON";
+  }
+
   function startDrag(e) {
-  const target = e.target;
+    const target = e.target;
 
-  // ❌ If you tap the close button or any button inside header → DO NOT DRAG
-  if (target.classList.contains('close-btn') || target.tagName === 'BUTTON') {
-    isDragging = false;
-    return; // let the click happen normally
+    // ❌ DO NOT drag when tapping any button or close icon
+    if (isInsideButton(target)) {
+      isDragging = false;
+      return;
+    }
+
+    // ❌ Disable dragging on mobile
+    if (window.innerWidth <= 768) {
+      isDragging = false;
+      return;
+    }
+
+    // ✔ Begin drag for tablets/desktop
+    isDragging = true;
+    bringToFront(el);
+
+    const point = e.touches ? e.touches[0] : e;
+    startX = point.clientX;
+    startY = point.clientY;
+    offsetX = el.offsetLeft;
+    offsetY = el.offsetTop;
+
+    if (e.cancelable !== false) e.preventDefault();
   }
-
-  // ❌ Disable dragging on mobile
-  if (window.innerWidth <= 768) {
-    isDragging = false;
-    return;
-  }
-
-  // 💚 Normal drag logic…
-  isDragging = true;
-  bringToFront(el);
-
-  const point = e.touches ? e.touches[0] : e;
-  startX = point.clientX;
-  startY = point.clientY;
-
-  offsetX = el.offsetLeft;
-  offsetY = el.offsetTop;
-
-  if (e.cancelable !== false) e.preventDefault();
-}
-
 
   function onDrag(e) {
     if (!isDragging) return;
 
     const point = e.touches ? e.touches[0] : e;
-
     const dx = point.clientX - startX;
     const dy = point.clientY - startY;
 
     el.style.left = `${offsetX + dx}px`;
     el.style.top  = `${offsetY + dy}px`;
 
-    // prevents the page from scrolling during drag (tablets)
     if (e.cancelable !== false) e.preventDefault();
   }
 
@@ -77,22 +77,19 @@ function makeDraggable(el, header) {
     isDragging = false;
   }
 
+  // Desktop
+  header.addEventListener("mousedown", startDrag);
+  document.addEventListener("mousemove", onDrag);
+  document.addEventListener("mouseup", endDrag);
 
-  /*** EVENT LISTENERS ***/
+  // Tablet touch
+  header.addEventListener("touchstart", startDrag, { passive: false });
+  document.addEventListener("touchmove", onDrag, { passive: false });
+  document.addEventListener("touchend", endDrag, { passive: false });
 
-  // Mouse events (desktop)
-  header.addEventListener('mousedown', startDrag);
-  document.addEventListener('mousemove', onDrag);
-  document.addEventListener('mouseup', endDrag);
-
-  // Touch events (iPad / Android tablet)
-  header.addEventListener('touchstart', startDrag, { passive: false });
-  document.addEventListener('touchmove', onDrag, { passive: false });
-  document.addEventListener('touchend', endDrag, { passive: false });
-
-  // Bring window to top when tapped
-  el.addEventListener('touchstart', () => bringToFront(el), { passive: true });
-  el.addEventListener('mousedown', () => bringToFront(el));
+  // Bring to front
+  el.addEventListener("touchstart", () => bringToFront(el), { passive: true });
+  el.addEventListener("mousedown", () => bringToFront(el));
 }
 
 
@@ -188,10 +185,10 @@ window.addEventListener('DOMContentLoaded', () => {
       makeDraggable(win, header);
       const closeBtn = header.querySelector('.close-btn');
       if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-          playClickSound();
-          closeWindow(win);
-        });
+closeBtn.addEventListener("touchstart", (e) => {
+  e.stopPropagation();
+}, { passive: true });
+
       }
     }
   });

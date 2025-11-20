@@ -1,53 +1,60 @@
-// language swap //
+// =====================================
+// LANGUAGE SWITCH
+// =====================================
 function setLanguage(lang) {
   document.querySelectorAll('[data-en][data-nl]').forEach(el => {
     const text = el.getAttribute(`data-${lang}`);
     if (text) el.textContent = text;
   });
 
-  // Highlight active language button
-  document.querySelectorAll('.language-toggle img').forEach(img => {
-    img.classList.remove('active');
-  });
+  document.querySelectorAll('.language-toggle img').forEach(img =>
+    img.classList.remove('active')
+  );
 
-  const activeImg = document.querySelector(`.language-toggle img[alt="${lang === 'en' ? 'English' : 'Dutch'}"]`);
+  const activeImg = document.querySelector(
+    `.language-toggle img[alt="${lang === 'en' ? 'English' : 'Dutch'}"]`
+  );
   if (activeImg) activeImg.classList.add('active');
 }
 
-// === Z-index manager (top of your script) ===
-let zTop = 100;                 // start above your page chrome
+// =====================================
+// Z-INDEX MANAGER
+// =====================================
+let zTop = 100;
 function bringToFront(el) {
   zTop += 1;
   el.style.zIndex = zTop;
 }
 
-
-// === Make Window Draggable ===
+// =====================================
+// DRAGGABLE WINDOWS (FULL FIXED VERSION)
+// =====================================
 function makeDraggable(el, header) {
   let startX = 0, startY = 0;
   let offsetX = 0, offsetY = 0;
   let isDragging = false;
 
   function isInsideButton(element) {
-    return element.closest(".close-btn") || element.tagName === "BUTTON";
+    return element.closest(".close-btn") !== null ||
+           element.tagName === "BUTTON";
   }
 
   function startDrag(e) {
     const target = e.target;
 
-    // ❌ DO NOT drag when tapping any button or close icon
+    // STOP drag when touching close button
     if (isInsideButton(target)) {
       isDragging = false;
       return;
     }
 
-    // ❌ Disable dragging on mobile
+    // Disable drag on MOBILE only
     if (window.innerWidth <= 768) {
       isDragging = false;
       return;
     }
 
-    // ✔ Begin drag for tablets/desktop
+    // Begin drag (desktop/tablet)
     isDragging = true;
     bringToFront(el);
 
@@ -68,7 +75,7 @@ function makeDraggable(el, header) {
     const dy = point.clientY - startY;
 
     el.style.left = `${offsetX + dx}px`;
-    el.style.top  = `${offsetY + dy}px`;
+    el.style.top = `${offsetY + dy}px`;
 
     if (e.cancelable !== false) e.preventDefault();
   }
@@ -77,24 +84,24 @@ function makeDraggable(el, header) {
     isDragging = false;
   }
 
-  // Desktop
+  // Mouse
   header.addEventListener("mousedown", startDrag);
   document.addEventListener("mousemove", onDrag);
   document.addEventListener("mouseup", endDrag);
 
-  // Tablet touch
+  // Touch (tablet)
   header.addEventListener("touchstart", startDrag, { passive: false });
   document.addEventListener("touchmove", onDrag, { passive: false });
   document.addEventListener("touchend", endDrag, { passive: false });
 
-  // Bring to front
-  el.addEventListener("touchstart", () => bringToFront(el), { passive: true });
+  // Raise window on click/tap
   el.addEventListener("mousedown", () => bringToFront(el));
+  el.addEventListener("touchstart", () => bringToFront(el), { passive: true });
 }
 
-
-
-// === Open & Close Window Logic ===
+// =====================================
+// OPEN / CLOSE WINDOWS
+// =====================================
 function openWindow(id) {
   const win = document.getElementById(id);
 
@@ -107,13 +114,12 @@ function openWindow(id) {
     win.classList.add('show-mobile');
   } else {
     win.style.display = 'flex';
-    bringToFront(win);           // <-- NEW: newly opened window is above previous
+    bringToFront(win);
     win.classList.remove('closing');
     win.classList.add('opening');
     setTimeout(() => win.classList.remove('opening'), 200);
   }
 }
-
 
 function closeWindow(el) {
   if (window.innerWidth <= 768) {
@@ -128,28 +134,31 @@ function closeWindow(el) {
   }
 }
 
-// === fullscreen picture ===
+// =====================================
+// FULLSCREEN IMAGES
+// =====================================
 function toggleFullscreen(img) {
   if (!document.fullscreenElement) {
-    img.requestFullscreen().catch(err => {
-      console.error(`Error attempting to enable fullscreen mode: ${err.message}`);
-    });
+    img.requestFullscreen().catch(err =>
+      console.error(`Fullscreen error: ${err.message}`)
+    );
   } else {
     document.exitFullscreen();
   }
 }
 
-// Example usage:
-["promo", "environment", "robot", "color", "cmdlogo", "qr", "userjourney", "website1", "website2", "poster",
- "phonebox", "keychain", "logo", "pamflet", "poster1", "poster2", "userjourneyposter", "intervention","bothpic", "helm" ]
-.forEach(id => {
+[
+  "promo","environment","robot","color","cmdlogo","qr","userjourney","website1",
+  "website2","poster","phonebox","keychain","logo","pamflet","poster1",
+  "poster2","userjourneyposter","intervention","bothpic","helm"
+].forEach(id => {
   const el = document.getElementById(id);
-  if (el) el.onclick = function() { toggleFullscreen(this); };
+  if (el) el.onclick = () => toggleFullscreen(el);
 });
 
-
-
-// === Play Click Sound ===
+// =====================================
+// CLICK SOUND
+// =====================================
 const clickSound = new Audio('sounds/click.mp3');
 function playClickSound() {
   clickSound.currentTime = 0;
@@ -161,7 +170,9 @@ function handleClick(id) {
   openWindow(id);
 }
 
-// === Contact Form Submission ===
+// =====================================
+// CONTACT FORM
+// =====================================
 document.getElementById('contactForm').addEventListener('submit', function (e) {
   e.preventDefault();
   playClickSound();
@@ -172,55 +183,57 @@ document.getElementById('contactForm').addEventListener('submit', function (e) {
       const popup = document.getElementById('popup');
       popup.style.display = 'block';
       setTimeout(() => popup.style.display = 'none', 2000);
-    }, (error) => {
-      alert('Oops! Something went wrong: ' + error.text);
-    });
+    }, error => alert('Oops! Something went wrong: ' + error.text));
 });
 
-// === Setup Draggables & Close Buttons ===
+// =====================================
+// SETUP WINDOWS + CLOSE BUTTON FIX
+// =====================================
 window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.draggable-window').forEach(win => {
     const header = win.querySelector('.window-header');
-    if (header) {
-      makeDraggable(win, header);
-      const closeBtn = header.querySelector('.close-btn');
-      if (closeBtn) {
-// Prevent drag from stealing the tap
-closeBtn.addEventListener("touchstart", (e) => {
-  e.stopPropagation();
-}, { passive: true });
+    if (!header) return;
 
-// Actually close the window on tablet
-closeBtn.addEventListener("touchend", (e) => {
-  e.stopPropagation();
-  closeWindow(win);
-  playClickSound();
-}, { passive: true });
+    makeDraggable(win, header);
 
-// Desktop click
-closeBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  closeWindow(win);
-  playClickSound();
-});
+    const closeBtn = header.querySelector('.close-btn');
+    if (!closeBtn) return;
 
-      }
-    }
+    // STOP header drag from stealing the tap
+    closeBtn.addEventListener("touchstart", e => {
+      e.stopPropagation();
+    }, { passive: false });
+
+    // CLOSE WINDOW on tablet
+    closeBtn.addEventListener("touchend", e => {
+      e.stopPropagation();
+      e.preventDefault();
+      closeWindow(win);
+      playClickSound();
+    }, { passive: false });
+
+    // DESKTOP click
+    closeBtn.addEventListener("click", e => {
+      e.stopPropagation();
+      closeWindow(win);
+      playClickSound();
+    });
   });
 });
 
-// === Petals with Cursor Repel ===
+// =====================================
+// PETALS (UNCHANGED — WORKS FINE)
+// =====================================
 const canvas = document.querySelector('canvas');
-canvas.width  = window.innerWidth;
+canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 const ctx = canvas.getContext('2d');
 
-const TOTAL      = 100;
+const TOTAL = 100;
 const petalArray = [];
-const repelRadius = 100;   // how far the repulsion reaches
-const repelStrength = 5;   // how strongly petals are pushed
+const repelRadius = 100;
+const repelStrength = 5;
 
-// track mouse
 const mouse = { x: null, y: null };
 
 window.addEventListener('mousemove', e => {
@@ -228,18 +241,15 @@ window.addEventListener('mousemove', e => {
   mouse.y = e.clientY;
 });
 window.addEventListener('mouseleave', () => {
-  mouse.x = null;
-  mouse.y = null;
+  mouse.x = mouse.y = null;
 });
 
 const petalImg = new Image();
 petalImg.src = 'https://djjjk9bjm164h.cloudfront.net/petal.png';
-petalImg.addEventListener('load', () => {
-  for (let i = 0; i < TOTAL; i++) {
-    petalArray.push(new Petal());
-  }
+petalImg.onload = () => {
+  for (let i = 0; i < TOTAL; i++) petalArray.push(new Petal());
   render();
-});
+};
 
 function render() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -248,7 +258,7 @@ function render() {
 }
 
 window.addEventListener('resize', () => {
-  canvas.width  = window.innerWidth;
+  canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 });
 
@@ -262,13 +272,11 @@ class Petal {
     this.w = 25 + Math.random() * 15;
     this.h = 20 + Math.random() * 10;
     this.x = Math.random() * canvas.width;
-    this.y = init
-      ? (Math.random() * canvas.height * 2) - canvas.height
-      : -this.h;
+    this.y = init ? Math.random() * canvas.height * 2 - canvas.height : -this.h;
     this.opacity = this.w / 40;
-    this.flip    = Math.random();
-    this.xSpeed  = Math.random() * 0.5 - 0.25;
-    this.ySpeed  = Math.random() * 0.5 + 0.3;
+    this.flip = Math.random();
+    this.xSpeed = Math.random() * 0.5 - 0.25;
+    this.ySpeed = Math.random() * 0.5 + 0.3;
   }
 
   draw() {
@@ -279,8 +287,8 @@ class Petal {
     ctx.drawImage(
       petalImg,
       0, 0,
-      this.w * (0.6 + (Math.abs(Math.cos(this.flip)) / 3)),
-      this.h * (0.8 + (Math.abs(Math.sin(this.flip)) / 5))
+      this.w * (0.6 + Math.abs(Math.cos(this.flip)) / 3),
+      this.h * (0.8 + Math.abs(Math.sin(this.flip)) / 5)
     );
     ctx.restore();
   }
@@ -290,12 +298,9 @@ class Petal {
     const dx = this.x - mouse.x;
     const dy = this.y - mouse.y;
     const dist = Math.hypot(dx, dy);
-
     if (dist < repelRadius) {
-      // normalized direction
       const ux = dx / dist;
       const uy = dy / dist;
-      // stronger push the closer it is:
       const force = (repelRadius - dist) / repelRadius;
       this.x += ux * force * repelStrength;
       this.y += uy * force * repelStrength;
@@ -303,23 +308,15 @@ class Petal {
   }
 
   animate() {
-    // normal fall
     this.x += this.xSpeed;
     this.y += this.ySpeed;
     this.flip += this.flipSpeed;
 
-    // repel from cursor
     this.applyRepel();
 
-    // reset if off screen
-    if (
-      this.y > canvas.height ||
-      this.x > canvas.width  ||
-      this.x < -this.w
-    ) {
+    if (this.y > canvas.height || this.x > canvas.width || this.x < -this.w) {
       this.reset();
     }
-
     this.draw();
   }
 }

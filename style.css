@@ -479,3 +479,9 @@ html {
   scrollbar-width: thin;                        /* "auto" or "thin" */
   scrollbar-color: #9CAD8C #F1C8CB;             /* thumb then track */
 }
+
+.close-btn {
+  touch-action: manipulation;
+  pointer-events: auto !important;
+  z-index: 99999 !important;
+}

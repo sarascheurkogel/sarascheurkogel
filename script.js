@@ -29,27 +29,34 @@ function makeDraggable(el, header) {
   let isDragging = false;
 
   function startDrag(e) {
+  const target = e.target;
 
-    // 💖 BLOCK DRAGGING ON MOBILE ONLY
-    if (window.innerWidth <= 768) {
-      isDragging = false;
-      return;
-    }
-
-    isDragging = true;
-    bringToFront(el);
-
-    const point = e.touches ? e.touches[0] : e;
-
-    startX = point.clientX;
-    startY = point.clientY;
-
-    offsetX = el.offsetLeft;
-    offsetY = el.offsetTop;
-
-    // IMPORTANT: allow tablet dragging
-    if (e.cancelable !== false) e.preventDefault();
+  // ❌ If you tap the close button or any button inside header → DO NOT DRAG
+  if (target.classList.contains('close-btn') || target.tagName === 'BUTTON') {
+    isDragging = false;
+    return; // let the click happen normally
   }
+
+  // ❌ Disable dragging on mobile
+  if (window.innerWidth <= 768) {
+    isDragging = false;
+    return;
+  }
+
+  // 💚 Normal drag logic…
+  isDragging = true;
+  bringToFront(el);
+
+  const point = e.touches ? e.touches[0] : e;
+  startX = point.clientX;
+  startY = point.clientY;
+
+  offsetX = el.offsetLeft;
+  offsetY = el.offsetTop;
+
+  if (e.cancelable !== false) e.preventDefault();
+}
+
 
   function onDrag(e) {
     if (!isDragging) return;

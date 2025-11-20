@@ -265,6 +265,7 @@ h1 {
   position: fixed;
   bottom: 20px;
   right: 20px; 
+  z-index: 999999 !important;
   cursor: pointer;
   animation: sparkleWiggle 2.5s infinite ease-in-out;
   transition: transform 0.3s ease;

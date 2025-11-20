@@ -6,7 +6,52 @@ body {
   font-family: 'Courier New', Courier, monospace, sans-serif;
   padding: 2rem;
   overflow: hidden;
+  cursor: none; /* hide real cursor */
 }
+/* The base custom cursor */
+#custom-cursor {
+  position: fixed;
+  width: 64px;   /* BIGGER */
+  height: 64px;  /* BIGGER */
+  pointer-events: none;
+  background-size: contain;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  z-index: 999999;
+  transform: translate(-50%, -50%) scale(4); /* MAKE HER THICC */
+}
+
+
+body:not(.hover-clickable):not(.hover-dragging) #custom-cursor {
+  background-image: url('images/cursor-normal.png');
+}
+
+body.hover-clickable #custom-cursor {
+  transform: translate(-50%, -50%) scale(4);
+}
+
+body.hover-dragging #custom-cursor {
+  transform: translate(-50%, -50%) scale(5);
+}
+
+
+/* When hovering clickable things */
+body.hover-clickable #custom-cursor {
+  background-image: url('images/cursor-hover.png');
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+/* When dragging windows */
+body.hover-dragging #custom-cursor {
+  background-image: url('images/cursor-drag.png');
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+/* Default cursor */
+body:not(.hover-clickable):not(.hover-dragging) #custom-cursor {
+  background-image: url('images/cursor-normal.png');
+}
+
 /*peddels*/
 canvas {
   position: fixed;
@@ -14,6 +59,26 @@ canvas {
   left: 0;
   z-index: -1;
 }
+
+/* Pixel sparkle trail */
+.cursor-trail {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+  background: url('images/cursor-sparkle.png');
+  background-size: contain;
+  opacity: 0.9;
+  image-rendering: pixelated;
+  animation: sparkleFade 0.6s linear forwards;
+}
+
+@keyframes sparkleFade {
+  0%   { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.2); opacity: 0; }
+}
+
+
 /*laguage switch*/
 .language-toggle {
   position: fixed;
@@ -157,7 +222,7 @@ h1 {
   top: 100px;
   left: 100px;
   width: 90%;
-  max-width: 500px;
+  max-width: 550px;
   background: #fff;
   border: 2px solid #F6B0BB;
   border-radius: 10px;
@@ -485,3 +550,87 @@ html {
   pointer-events: auto !important;
   z-index: 99999 !important;
 }
+/* ======== CUSTOM SPARKLE CURSOR SYSTEM ======== */
+
+/* Hide native cursor everywhere */
+body, * {
+  cursor: none !important;
+}
+
+/* Main sparkle blob cursor */
+#custom-cursor {
+  position: fixed;
+  pointer-events: none;
+  width: 28px;
+  height: 28px;
+  background: radial-gradient(circle,
+    rgba(255,170,220,1) 0%,
+    rgba(255,170,220,0.5) 60%,
+    rgba(255,170,220,0) 100%
+  );
+  border-radius: 50%;
+  filter: saturate(130%) brightness(1.4);
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease-out;
+  z-index: 999999;
+  image-rendering: pixelated;
+}
+
+/* Hovering clickable */
+body.hover-clickable #custom-cursor {
+  transform: translate(-50%, -50%) scale(1.4);
+  background: radial-gradient(circle,
+    rgba(255,210,240,1) 0%,
+    rgba(255,150,220,0.6) 50%,
+    rgba(255,150,220,0) 100%
+  );
+}
+
+/* Dragging mode */
+body.hover-dragging #custom-cursor {
+  transform: translate(-50%, -50%) scale(1.8);
+  background: radial-gradient(circle,
+    rgba(190,255,220,1) 0%,
+    rgba(150,255,200,0.6) 50%,
+    rgba(150,255,200,0) 100%
+  );
+}
+
+/* Sparkle particles */
+.cursor-spark {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  background: radial-gradient(circle,
+    rgba(255,200,240,1) 0%,
+    rgba(255,200,240,0) 70%
+  );
+  border-radius: 50%;
+  opacity: 0.9;
+  filter: blur(0.6px);
+  image-rendering: pixelated;
+  z-index: 999998;
+  animation: sparkleFade 0.6s linear forwards;
+}
+
+@keyframes sparkleFade {
+  0%   { transform: scale(1) translate(0,0); opacity: 1; }
+  100% { transform: scale(0.1) translate(0,-10px); opacity: 0; }
+}
+
+/* ======== YOUR ORIGINAL CSS BELOW ======== */
+
+body {
+  background-image: url('images/background.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  font-family: 'Courier New', Courier, monospace, sans-serif;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+/* (…ALL YOUR OTHER CSS UNCHANGED…) */
+
+/* Keep everything else EXACTLY as it was */

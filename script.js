@@ -29,53 +29,63 @@ function makeDraggable(el, header) {
   let isDragging = false;
 
   function startDrag(e) {
-    // ⛔ Prevent dragging entirely on mobile — BUT allow touches to pass through
+
+    // 💖 BLOCK DRAGGING ON MOBILE ONLY
     if (window.innerWidth <= 768) {
       isDragging = false;
-      return;  // do NOT call preventDefault, do NOT block event
+      return;
     }
 
     isDragging = true;
     bringToFront(el);
 
     const point = e.touches ? e.touches[0] : e;
+
     startX = point.clientX;
     startY = point.clientY;
 
     offsetX = el.offsetLeft;
     offsetY = el.offsetTop;
 
-    if (e.touches) e.preventDefault(); // only prevent default on desktop-like touch
+    // IMPORTANT: allow tablet dragging
+    if (e.cancelable !== false) e.preventDefault();
   }
 
   function onDrag(e) {
     if (!isDragging) return;
 
     const point = e.touches ? e.touches[0] : e;
+
     const dx = point.clientX - startX;
     const dy = point.clientY - startY;
 
     el.style.left = `${offsetX + dx}px`;
-    el.style.top = `${offsetY + dy}px`;
+    el.style.top  = `${offsetY + dy}px`;
+
+    // prevents the page from scrolling during drag (tablets)
+    if (e.cancelable !== false) e.preventDefault();
   }
 
   function endDrag() {
     isDragging = false;
   }
 
-  // Attach events
+
+  /*** EVENT LISTENERS ***/
+
+  // Mouse events (desktop)
   header.addEventListener('mousedown', startDrag);
   document.addEventListener('mousemove', onDrag);
   document.addEventListener('mouseup', endDrag);
 
-  header.addEventListener('touchstart', startDrag, { passive: true }); 
-  // 👆 passive: true = DO NOT BLOCK taps on mobile
-
+  // Touch events (iPad / Android tablet)
+  header.addEventListener('touchstart', startDrag, { passive: false });
   document.addEventListener('touchmove', onDrag, { passive: false });
-  document.addEventListener('touchend', endDrag);
+  document.addEventListener('touchend', endDrag, { passive: false });
 
-  el.addEventListener('mousedown', () => bringToFront(el));
+  // Bring window to top when tapped
   el.addEventListener('touchstart', () => bringToFront(el), { passive: true });
+  el.addEventListener('mousedown', () => bringToFront(el));
 }
 
 

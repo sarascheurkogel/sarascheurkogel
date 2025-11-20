@@ -307,6 +307,41 @@ h1 {
   50% { transform: rotate(-5deg) scale(1.1); }
   75% { transform: rotate(3deg) scale(1.05); }
 }
+
+/* ✨ Mini Footer */
+.site-footer {
+  width: 100%;
+  background: rgba(241, 200, 203, 0.8);
+  border-top: 2px solid #F6B0BB;
+  box-shadow: 0 -3px 0 #9CAD8C;
+  text-align: center;
+  padding: 0.3rem 0.2rem;
+  font-family: 'Courier New', monospace;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 500;
+}
+
+.site-footer p {
+  margin: 0;
+  color: #7a7a7a;
+  font-size: 0.55rem;
+  line-height: 0.9rem;
+}
+
+.site-footer a {
+  color: #F6B0BB;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.55rem;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+
 /* ... (rest of your CSS like forms, bio, popups, mobile) ... */
 
   /* ===== About/Bio Section ===== */

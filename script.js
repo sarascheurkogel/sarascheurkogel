@@ -1,6 +1,4 @@
-// =====================================
-// LANGUAGE SWITCH
-// =====================================
+/* ========== LANGUAGE SWAP ========== */
 function setLanguage(lang) {
   document.querySelectorAll('[data-en][data-nl]').forEach(el => {
     const text = el.getAttribute(`data-${lang}`);
@@ -17,48 +15,28 @@ function setLanguage(lang) {
   if (activeImg) activeImg.classList.add('active');
 }
 
-// =====================================
-// Z-INDEX MANAGER
-// =====================================
+/* ========== Z-INDEX MANAGER ========== */
 let zTop = 100;
 function bringToFront(el) {
   zTop += 1;
   el.style.zIndex = zTop;
 }
 
-// =====================================
-// DRAGGABLE WINDOWS (FULL FIXED VERSION)
-// =====================================
+/* ========== DRAGGABLE WINDOWS ========== */
 function makeDraggable(el, header) {
   let startX = 0, startY = 0;
   let offsetX = 0, offsetY = 0;
   let isDragging = false;
 
-  function isInsideButton(element) {
-    return element.closest(".close-btn") !== null ||
-           element.tagName === "BUTTON";
-  }
-
   function startDrag(e) {
-    const target = e.target;
-
-    // STOP drag when touching close button
-    if (isInsideButton(target)) {
-      isDragging = false;
-      return;
-    }
-
-    // Disable drag on MOBILE only
-    if (window.innerWidth <= 768) {
-      isDragging = false;
-      return;
-    }
-
-    // Begin drag (desktop/tablet)
-    isDragging = true;
-    bringToFront(el);
+    if (window.innerWidth <= 768) return;
 
     const point = e.touches ? e.touches[0] : e;
+    isDragging = true;
+
+    bringToFront(el);
+    startDraggingCursorMode();
+
     startX = point.clientX;
     startY = point.clientY;
     offsetX = el.offsetLeft;
@@ -82,26 +60,20 @@ function makeDraggable(el, header) {
 
   function endDrag() {
     isDragging = false;
+    stopDraggingCursorMode();
   }
 
-  // Mouse
   header.addEventListener("mousedown", startDrag);
-  document.addEventListener("mousemove", onDrag);
-  document.addEventListener("mouseup", endDrag);
-
-  // Touch (tablet)
   header.addEventListener("touchstart", startDrag, { passive: false });
-  document.addEventListener("touchmove", onDrag, { passive: false });
-  document.addEventListener("touchend", endDrag, { passive: false });
 
-  // Raise window on click/tap
-  el.addEventListener("mousedown", () => bringToFront(el));
-  el.addEventListener("touchstart", () => bringToFront(el), { passive: true });
+  document.addEventListener("mousemove", onDrag);
+  document.addEventListener("touchmove", onDrag, { passive: false });
+
+  document.addEventListener("mouseup", endDrag);
+  document.addEventListener("touchend", endDrag);
 }
 
-// =====================================
-// OPEN / CLOSE WINDOWS
-// =====================================
+/* ========== OPEN & CLOSE WINDOWS ========== */
 function openWindow(id) {
   const win = document.getElementById(id);
 
@@ -115,7 +87,6 @@ function openWindow(id) {
   } else {
     win.style.display = 'flex';
     bringToFront(win);
-    win.classList.remove('closing');
     win.classList.add('opening');
     setTimeout(() => win.classList.remove('opening'), 200);
   }
@@ -134,32 +105,9 @@ function closeWindow(el) {
   }
 }
 
-// =====================================
-// FULLSCREEN IMAGES
-// =====================================
-function toggleFullscreen(img) {
-  if (!document.fullscreenElement) {
-    img.requestFullscreen().catch(err =>
-      console.error(`Fullscreen error: ${err.message}`)
-    );
-  } else {
-    document.exitFullscreen();
-  }
-}
-
-[
-  "promo","environment","robot","color","cmdlogo","qr","userjourney","website1",
-  "website2","poster","phonebox","keychain","logo","pamflet","poster1",
-  "poster2","userjourneyposter","intervention","bothpic","helm"
-].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) el.onclick = () => toggleFullscreen(el);
-});
-
-// =====================================
-// CLICK SOUND
-// =====================================
+/* ========== CLICK SOUND ========== */
 const clickSound = new Audio('sounds/click.mp3');
+
 function playClickSound() {
   clickSound.currentTime = 0;
   clickSound.play();
@@ -170,25 +118,20 @@ function handleClick(id) {
   openWindow(id);
 }
 
-// =====================================
-// CONTACT FORM
-// =====================================
-document.getElementById('contactForm').addEventListener('submit', function (e) {
+/* ========== CONTACT FORM ========== */
+document.getElementById('contactForm').addEventListener('submit', function(e) {
   e.preventDefault();
   playClickSound();
 
-  emailjs.sendForm('service_et7jgjt', 'template_ggrcvjy', this)
-    .then(() => {
-      this.reset();
-      const popup = document.getElementById('popup');
-      popup.style.display = 'block';
-      setTimeout(() => popup.style.display = 'none', 2000);
-    }, error => alert('Oops! Something went wrong: ' + error.text));
+  emailjs.sendForm('service_et7jgjt', 'template_ggrcvjy', this).then(() => {
+    this.reset();
+    const popup = document.getElementById('popup');
+    popup.style.display = 'block';
+    setTimeout(() => popup.style.display = 'none', 2000);
+  });
 });
 
-// =====================================
-// SETUP WINDOWS + CLOSE BUTTON FIX
-// =====================================
+/* ========== INITIALIZE WINDOWS ========== */
 window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.draggable-window').forEach(win => {
     const header = win.querySelector('.window-header');
@@ -196,31 +139,79 @@ window.addEventListener('DOMContentLoaded', () => {
 
     makeDraggable(win, header);
 
-    const closeBtn = header.querySelector('.close-btn');
-    if (!closeBtn) return;
-
-    // STOP header drag from stealing the tap
-    closeBtn.addEventListener("touchstart", e => {
-      e.stopPropagation();
-    }, { passive: false });
-
-    // CLOSE WINDOW on tablet
-    closeBtn.addEventListener("touchend", e => {
-      e.stopPropagation();
-      e.preventDefault();
-      closeWindow(win);
-      playClickSound();
-    }, { passive: false });
-
-    // DESKTOP click
-    closeBtn.addEventListener("click", e => {
-      e.stopPropagation();
-      closeWindow(win);
-      playClickSound();
-    });
+    const closeBtn = win.querySelector('.close-btn');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        playClickSound();
+        closeWindow(win);
+      });
+    }
   });
 });
 
+/* =========================================================
+   🌸 CUSTOM SPARKLE BLOB CURSOR ENGINE
+========================================================= */
+
+const customCursor = document.createElement("div");
+customCursor.id = "custom-cursor";
+document.body.appendChild(customCursor);
+
+let stillTimer = null;
+let gathering = false;
+
+document.addEventListener("mousemove", (e) => {
+  const x = e.clientX;
+  const y = e.clientY;
+
+  customCursor.style.left = x + "px";
+  customCursor.style.top = y + "px";
+
+  gathering = false;
+
+  createSparkle(x, y);
+
+  clearTimeout(stillTimer);
+  stillTimer = setTimeout(() => {
+    gathering = true;
+    pullSparklesToCursor(x, y);
+  }, 120);
+});
+
+function createSparkle(x, y) {
+  const sp = document.createElement("div");
+  sp.classList.add("cursor-spark");
+  sp.style.left = x + "px";
+  sp.style.top = y + "px";
+  document.body.appendChild(sp);
+
+  setTimeout(() => sp.remove(), 600);
+}
+
+function pullSparklesToCursor(x, y) {
+  const all = document.querySelectorAll(".cursor-spark");
+  all.forEach(sp => {
+    sp.style.transition = "0.25s linear";
+    sp.style.left = x + "px";
+    sp.style.top = y + "px";
+    sp.style.opacity = "0";
+  });
+}
+
+/* CLICKABLE HOVER MODE */
+document.querySelectorAll("button, a, img, .close-btn").forEach(el => {
+  el.addEventListener("mouseenter", () => document.body.classList.add("hover-clickable"));
+  el.addEventListener("mouseleave", () => document.body.classList.remove("hover-clickable"));
+});
+
+/* DRAGGING MODE */
+function startDraggingCursorMode() {
+  document.body.classList.add("hover-dragging");
+}
+
+function stopDraggingCursorMode() {
+  document.body.classList.remove("hover-dragging");
+}
 // =====================================
 // PETALS (UNCHANGED — WORKS FINE)
 // =====================================

@@ -24,26 +24,60 @@ function bringToFront(el) {
 
 // === Make Window Draggable ===
 function makeDraggable(el, header) {
-  let offsetX = 0, offsetY = 0, isDragging = false;
+  let startX = 0, startY = 0;
+  let offsetX = 0, offsetY = 0;
+  let isDragging = false;
 
-  header.addEventListener('mousedown', (e) => {
+  function startDrag(e) {
+    // ⛔ Prevent dragging entirely on mobile — BUT allow touches to pass through
+    if (window.innerWidth <= 768) {
+      isDragging = false;
+      return;  // do NOT call preventDefault, do NOT block event
+    }
+
     isDragging = true;
-    offsetX = e.clientX - el.offsetLeft;
-    offsetY = e.clientY - el.offsetTop;
-    bringToFront(el);            // <-- put it on top when you grab it
-  });
+    bringToFront(el);
 
-  // (optional) clicking anywhere on the window also brings it to front
+    const point = e.touches ? e.touches[0] : e;
+    startX = point.clientX;
+    startY = point.clientY;
+
+    offsetX = el.offsetLeft;
+    offsetY = el.offsetTop;
+
+    if (e.touches) e.preventDefault(); // only prevent default on desktop-like touch
+  }
+
+  function onDrag(e) {
+    if (!isDragging) return;
+
+    const point = e.touches ? e.touches[0] : e;
+    const dx = point.clientX - startX;
+    const dy = point.clientY - startY;
+
+    el.style.left = `${offsetX + dx}px`;
+    el.style.top = `${offsetY + dy}px`;
+  }
+
+  function endDrag() {
+    isDragging = false;
+  }
+
+  // Attach events
+  header.addEventListener('mousedown', startDrag);
+  document.addEventListener('mousemove', onDrag);
+  document.addEventListener('mouseup', endDrag);
+
+  header.addEventListener('touchstart', startDrag, { passive: true }); 
+  // 👆 passive: true = DO NOT BLOCK taps on mobile
+
+  document.addEventListener('touchmove', onDrag, { passive: false });
+  document.addEventListener('touchend', endDrag);
+
   el.addEventListener('mousedown', () => bringToFront(el));
-
-  document.addEventListener('mousemove', (e) => {
-    if (!isDragging || window.innerWidth <= 768) return;
-    el.style.left = `${e.clientX - offsetX}px`;
-    el.style.top  = `${e.clientY - offsetY}px`;
-  });
-
-  document.addEventListener('mouseup', () => { isDragging = false; });
+  el.addEventListener('touchstart', () => bringToFront(el), { passive: true });
 }
+
 
 
 // === Open & Close Window Logic ===

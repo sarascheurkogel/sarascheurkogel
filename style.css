@@ -6,7 +6,6 @@ body {
   font-family: 'Courier New', Courier, monospace, sans-serif;
   padding: 2rem;
   overflow: hidden;
-  cursor: none; /* hide real cursor */
 }
 /* The base custom cursor */
 #custom-cursor {
